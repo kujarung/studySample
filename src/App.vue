@@ -2,12 +2,35 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/notice">notice</router-link> | 
+      <router-link to="/db">db</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
+<script>
+export default {
+  name: "App",
+  created() {
+    this.setAxios();
+  },
+  methods: {
+    setAxios() {
+      return new Promise((resolve) => {
+        const MRKIM_ACCESS =
+          this.$cookie.get(this.$cookie.get("mrkim_header")) || null;
+
+        if (MRKIM_ACCESS)
+          this.$http.defaults.headers.common[
+            this.$cookie.get("mrkim_header")
+          ] = MRKIM_ACCESS;
+        return resolve();
+      });
+    }
+  }
+};
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
